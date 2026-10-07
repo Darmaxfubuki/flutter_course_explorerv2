@@ -16,7 +16,8 @@ class DebuggingApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tahap 16: Debugging Challenge',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E88E5)),
+        // PERBAIKAN: Hapus kata kunci 'const' sebelum Color(...)
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF1E88E5)),
         useMaterial3: true,
       ),
       home: const DebugChallengePage(),
@@ -82,9 +83,13 @@ class _DebugChallengePageState extends State<DebugChallengePage> {
                   padding: const EdgeInsets.all(14.0),
                   child: Row(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 26,
-                        backgroundImage: AssetImage('assets/images/profile.jpeg'),
+                        backgroundColor: Colors.blue.shade100,
+                        // Fallback aman jika file gambar profil belum tersedia
+                        backgroundImage: const AssetImage('assets/images/profile.jpeg'),
+                        onBackgroundImageError: (_, __) {},
+                        child: const Icon(Icons.person, color: Colors.blueGrey),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -131,7 +136,6 @@ class _DebugChallengePageState extends State<DebugChallengePage> {
                     children: [
                       const Icon(Icons.info, color: Colors.green),
                       const SizedBox(width: 8),
-                      // Penggunaan Expanded menyelesaikan masalah overflow teks panjang
                       Expanded(
                         child: Text(
                           '$studentId - $studentName - Teks ini sangat panjang dan berpotensi memicu RenderFlex Overflow jika tidak dibungkus dengan widget Expanded secara tepat.',
@@ -181,7 +185,6 @@ class _DebugChallengePageState extends State<DebugChallengePage> {
                   width: double.infinity,
                   height: 44,
                   child: ElevatedButton.icon(
-                    // Tombol otomatis disable saat _isNavigating true
                     onPressed: _isNavigating ? null : _safeNavigateToDetail,
                     icon: _isNavigating
                         ? const SizedBox(
